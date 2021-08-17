@@ -22,7 +22,7 @@ if useCython:
         from Cython.Distutils import build_ext
         cmdclass.update({'build_ext': build_ext})
     except ImportError:
-        print("WARNING: No Cython installed, compiling from .cpp files")
+        print('WARNING: No Cython installed, compiling from .cpp files')
         useCython = False
 
 ext = '.pyx' if useCython else '.cpp'
@@ -32,9 +32,8 @@ files = glob('src/**/*{}'.format(ext), recursive=True)
 def makeExtension(file, includeDirs):
     # There probably is a better way of doing this..
     # Extension namespace.package.name
-    nameSpace = os.path.relpath(file, Path('src/'))
+    nameSpace = os.path.relpath(file, Path(f'src/{APPNAME}'))
     extName = os.path.splitext(nameSpace)[0].replace(os.path.sep, '.')
-    extName = APPNAME if (extName == f"{APPNAME}.{APPNAME}") else extName  # Handle mem4py.mem4py
     return Extension(extName, [file], include_dirs=includeDirs, language='c++')
 
 
